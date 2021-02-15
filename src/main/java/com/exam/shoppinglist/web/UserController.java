@@ -32,6 +32,7 @@ public class UserController {
     public String register(Model model) {
         if (!model.containsAttribute("userRegisterBindingModel")) {
             model.addAttribute("userRegisterBindingModel", new UserRegisterBindingModel());
+            model.addAttribute("exists", false);
         }
         return "register";
     }
@@ -49,10 +50,17 @@ public class UserController {
             return "redirect:register";
         }
 
-        boolean result = this.userService.register(this.modelMapper.map(
+        boolean isRegistered = this.userService.register(this.modelMapper.map(
                 userRegisterBindingModel, UserServiceModel.class));
 
-        return result ? "redirect:login" : "redirect:register";
+        if (!isRegistered) {
+            redirectAttributes.addFlashAttribute("userRegisterBindingModel", userRegisterBindingModel);
+            redirectAttributes.addFlashAttribute("exists", true);
+
+            return "redirect:register";
+        }
+
+        return "redirect:login";
     }
 
     @GetMapping("/login")

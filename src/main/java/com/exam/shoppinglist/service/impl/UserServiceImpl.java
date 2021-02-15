@@ -27,17 +27,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean register(UserServiceModel userServiceModel) {
-
-        if (!this.validationUtil.isValid(userServiceModel)) {
+        try {
+            this.userRepository.save(this.modelMapper.map(userServiceModel, User.class));
+        } catch (Exception e) {
             return false;
         }
 
-        if (this.userRepository.findByUsername(userServiceModel.getUsername()).isPresent()
-            || this.userRepository.findByEmail(userServiceModel.getEmail()).isPresent()) {
-            return false;
-        }
-
-        this.userRepository.save(this.modelMapper.map(userServiceModel, User.class));
         return true;
     }
 
