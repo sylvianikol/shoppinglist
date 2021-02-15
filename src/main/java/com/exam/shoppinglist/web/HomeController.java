@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class HomeController {
@@ -33,19 +34,23 @@ public class HomeController {
 
         model.addAttribute("foods", this.productService
                 .getAllByCategoryName(CategoryName.FOOD).stream()
-                .map(p -> this.modelMapper.map(p, ProductViewModel.class)));
+                .map(p -> this.modelMapper.map(p, ProductViewModel.class))
+                .collect(Collectors.toUnmodifiableList()));
 
         model.addAttribute("drinks", this.productService
                 .getAllByCategoryName(CategoryName.DRINK).stream()
-                .map(p -> this.modelMapper.map(p, ProductViewModel.class)));
+                .map(p -> this.modelMapper.map(p, ProductViewModel.class))
+                .collect(Collectors.toUnmodifiableList()));
 
         model.addAttribute("households", this.productService
                 .getAllByCategoryName(CategoryName.HOUSEHOLD).stream()
-                .map(p -> this.modelMapper.map(p, ProductViewModel.class)));
+                .map(p -> this.modelMapper.map(p, ProductViewModel.class))
+                .collect(Collectors.toUnmodifiableList()));
 
         model.addAttribute("other", this.productService
                 .getAllByCategoryName(CategoryName.OTHER).stream()
-                .map(p -> this.modelMapper.map(p, ProductViewModel.class)));
+                .map(p -> this.modelMapper.map(p, ProductViewModel.class))
+                .collect(Collectors.toUnmodifiableList()));
 
         return "home";
     }
