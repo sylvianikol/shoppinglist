@@ -1,8 +1,10 @@
 package com.exam.shoppinglist.service.impl;
 
 
+import com.exam.shoppinglist.model.entity.CategoryName;
 import com.exam.shoppinglist.model.entity.Product;
 import com.exam.shoppinglist.model.service.ProductServiceModel;
+import com.exam.shoppinglist.model.view.ProductViewModel;
 import com.exam.shoppinglist.repository.ProductRepository;
 import com.exam.shoppinglist.service.CategoryService;
 import com.exam.shoppinglist.service.ProductService;
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -38,5 +42,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public BigDecimal getTotalPrice() {
         return this.productRepository.getTotalPrice();
+    }
+
+    @Override
+    public List<ProductServiceModel> getAllByCategoryName(CategoryName categoryName) {
+        return this.productRepository.findAllByCategory_Name(categoryName).stream()
+                .map(p -> this.modelMapper.map(p, ProductServiceModel.class))
+                .collect(Collectors.toUnmodifiableList());
     }
 }
