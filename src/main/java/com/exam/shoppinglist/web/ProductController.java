@@ -1,6 +1,7 @@
 package com.exam.shoppinglist.web;
 
 import com.exam.shoppinglist.model.binding.ProductAddBindingModel;
+import com.exam.shoppinglist.model.service.ProductServiceModel;
 import com.exam.shoppinglist.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
@@ -46,6 +47,7 @@ public class ProductController {
             return "redirect:add";
         }
 
+        this.productService.add(this.modelMapper.map(productAddBindingModel, ProductServiceModel.class));
 
         return "redirect:/";
     }
