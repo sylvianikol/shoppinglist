@@ -10,6 +10,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 public class ProductServiceImpl implements ProductService {
 
@@ -31,5 +33,10 @@ public class ProductServiceImpl implements ProductService {
 
         productRepository.save(product);
 
+    }
+
+    @Override
+    public BigDecimal getTotalPrice() {
+        return this.productRepository.getTotalPrice();
     }
 }
