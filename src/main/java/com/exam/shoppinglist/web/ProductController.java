@@ -37,7 +37,9 @@ public class ProductController {
 
         if (!model.containsAttribute("productAddBindingModel")) {
             model.addAttribute("productAddBindingModel", new ProductAddBindingModel());
+            model.addAttribute("exists", false);
         }
+
         return "product-add";
     }
 
@@ -54,7 +56,14 @@ public class ProductController {
             return "redirect:add";
         }
 
-        this.productService.add(this.modelMapper.map(productAddBindingModel, ProductServiceModel.class));
+        boolean isAdded = this.productService.add(this.modelMapper.map(productAddBindingModel, ProductServiceModel.class));
+
+        if (!isAdded) {
+            redirectAttributes.addFlashAttribute("productAddBindingModel", productAddBindingModel);
+            redirectAttributes.addFlashAttribute("exists", true);
+
+            return "redirect:add";
+        }
 
         return "redirect:/";
     }

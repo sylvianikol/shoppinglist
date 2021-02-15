@@ -4,7 +4,6 @@ package com.exam.shoppinglist.service.impl;
 import com.exam.shoppinglist.model.entity.CategoryName;
 import com.exam.shoppinglist.model.entity.Product;
 import com.exam.shoppinglist.model.service.ProductServiceModel;
-import com.exam.shoppinglist.model.view.ProductViewModel;
 import com.exam.shoppinglist.repository.ProductRepository;
 import com.exam.shoppinglist.service.CategoryService;
 import com.exam.shoppinglist.service.ProductService;
@@ -31,12 +30,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void add(ProductServiceModel productServiceModel) {
+    public boolean add(ProductServiceModel productServiceModel) {
         Product product = this.modelMapper.map(productServiceModel, Product.class);
         product.setCategory(this.categoryService.findByName(productServiceModel.getCategory()));
 
-        productRepository.save(product);
+        try {
+            productRepository.save(product);
+        } catch (Exception e) {
+            return false;
+        }
 
+        return true;
     }
 
     @Override
