@@ -5,7 +5,6 @@ import com.exam.shoppinglist.model.binding.UserRegisterBindingModel;
 import com.exam.shoppinglist.model.service.UserServiceModel;
 import com.exam.shoppinglist.service.UserService;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
